@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #FFFBF5;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Smooth scrolling */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep scroll */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Button press effect */
+.press-effect {
+  transition: transform 0.1s ease;
+}
+.press-effect:active {
+  transform: scale(0.96);
+}
+
+/* Score circle animation */
+.score-circle-track {
+  stroke-dasharray: 339;
+  stroke-dashoffset: 339;
+  animation: scoreFill 1.5s ease-out 0.3s forwards;
+}
+
+@keyframes scoreFill {
+  from { stroke-dashoffset: 339; }
+  to { stroke-dashoffset: var(--score-offset); }
+}
+
+/* Ingredient button bounce */
+@keyframes ingredientPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+.ingredient-pop {
+  animation: ingredientPop 0.2s ease;
+}
+
+/* Page entrance */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease forwards;
+}
+
+/* Staggered children */
+.stagger-1 { animation-delay: 0.05s; opacity: 0; }
+.stagger-2 { animation-delay: 0.1s; opacity: 0; }
+.stagger-3 { animation-delay: 0.15s; opacity: 0; }
+.stagger-4 { animation-delay: 0.2s; opacity: 0; }
+.stagger-5 { animation-delay: 0.25s; opacity: 0; }
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #1B4332 0%, #F4A261 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card shadow */
+.card-shadow {
+  box-shadow: 0 2px 12px rgba(27, 67, 50, 0.08);
+}
+
+/* Spice pattern background */
+.spice-bg {
+  background-image: radial-gradient(
+    circle at 20% 50%,
+    rgba(244, 162, 97, 0.08) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 80% 20%,
+    rgba(27, 67, 50, 0.06) 0%,
+    transparent 50%
+  );
+}
