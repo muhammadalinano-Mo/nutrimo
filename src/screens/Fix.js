@@ -6,7 +6,7 @@ function Fix() {
   const [activeTab, setActiveTab] = useState('swedish');
 
   const latestHistory = JSON.parse(
-    localStorage.getItem('fridgefix_history') || '[]'
+    localStorage.getItem('nutrimo_history') || '[]'
   )[0];
 
   const aiData = latestHistory?.aiData;

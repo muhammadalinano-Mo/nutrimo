@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 function History() {
   const navigate = useNavigate();
   const history = JSON.parse(
-    localStorage.getItem('fridgefix_history') || '[]'
+    localStorage.getItem('nutrimo_history') || '[]'
   );
 
   const scoreColor = (score) => {
@@ -195,7 +195,7 @@ function History() {
 
             <button
               onClick={() => {
-                localStorage.removeItem('fridgefix_history');
+                localStorage.removeItem('nutrimo_history');
                 window.location.reload();
               }}
               className="w-full text-red-400 text-sm py-2 font-medium"
