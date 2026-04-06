@@ -313,10 +313,9 @@ export const INGREDIENT_NUTRIENTS = {
   'Caraway seeds': ['antioxidants', 'fibre', 'calcium'],
   'Allspice': ['antioxidants', 'iron'],
   'Juniper berries': ['antioxidants', 'vitaminC'],
-'Juniper berries': ['antioxidants', 'vitaminC'],
+
 
   // EVERYDAY FOODS — real world ingredients
-  'Eggs': ['vitaminD', 'vitaminB12', 'protein', 'zinc', 'vitaminA'],
   'Falukorv': ['protein', 'iron', 'vitaminB12', 'zinc'],
   'Sausages': ['protein', 'iron', 'vitaminB12', 'zinc'],
   'Hot dog': ['protein', 'vitaminB12', 'zinc'],
@@ -368,8 +367,6 @@ export const INGREDIENT_NUTRIENTS = {
   'Seekh kebab': ['protein', 'iron', 'zinc', 'vitaminB12'],
   'Haleem': ['protein', 'iron', 'fibre', 'zinc'],
   'Biryani': ['protein', 'iron', 'fibre', 'magnesium'],
-  'Rice': ['fibre', 'magnesium'],
-  'Brown rice': ['fibre', 'magnesium', 'zinc'],
   'Toast': ['fibre', 'iron'],
   'Cereal': ['fibre', 'iron', 'vitaminB12'],
   'Pancakes': ['protein', 'calcium', 'vitaminB12'],
