@@ -5,61 +5,39 @@ import { calculateNutritionScore } from '../nutritionEngine';
 // ============================================================
 // SCORE CIRCLE COMPONENT
 // ============================================================
-function ScoreCircle({ score }) {
-  const radius = 54;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (score / 100) * circumference;
+function ScoreCircle({ coveredCount, totalNutrients }) {
+  const label = coveredCount >= 12 ? 'Excellent'
+    : coveredCount >= 9 ? 'Good'
+    : coveredCount >= 6 ? 'Fair'
+    : 'Needs Work';
 
-  const color = score >= 75 ? '#1B4332'
-    : score >= 50 ? '#E76F51'
+  const color = coveredCount >= 12 ? '#1B4332'
+    : coveredCount >= 9 ? '#2D6A4F'
+    : coveredCount >= 6 ? '#E76F51'
     : '#C1121F';
-
-  const label = score >= 85 ? 'Excellent'
-    : score >= 70 ? 'Good'
-    : score >= 55 ? 'Fair'
-    : score >= 40 ? 'Low'
-    : 'Critical';
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-36 h-36">
-        <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
-          <circle
-            cx="60" cy="60" r={radius}
-            fill="none"
-            stroke="#F4ECD8"
-            strokeWidth="10"
-          />
-          <circle
-            cx="60" cy="60" r={radius}
-            fill="none"
-            stroke={color}
-            strokeWidth="10"
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            style={{ transition: 'stroke-dashoffset 1.5s ease-out' }}
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center
-                        justify-center">
-          <span className="font-bold leading-none"
-            style={{
-              fontFamily: 'Playfair Display, serif',
-              fontSize: '2.2rem',
-              color,
-            }}>
-            {score}
-          </span>
-          <span className="text-gray-400 text-xs mt-0.5">
-            out of 100
-          </span>
-        </div>
+      <div className="w-36 h-36 rounded-full flex flex-col
+                      items-center justify-center"
+        style={{ backgroundColor: '#F4ECD8' }}>
+        <span className="font-bold leading-none"
+          style={{
+            fontFamily: 'Playfair Display, serif',
+            fontSize: '2rem',
+            color,
+          }}>
+          {coveredCount}/{totalNutrients}
+        </span>
+        <span className="text-xs text-gray-400 mt-1">
+          nutrients
+        </span>
       </div>
       <span className="font-bold text-sm mt-2 px-4 py-1 rounded-full"
         style={{
-          backgroundColor: score >= 75 ? '#D1FAE5'
-            : score >= 50 ? '#FEF3C7'
+          backgroundColor: coveredCount >= 12 ? '#D1FAE5'
+            : coveredCount >= 9 ? '#F0FDF4'
+            : coveredCount >= 6 ? '#FEF3C7'
             : '#FEE2E2',
           color,
         }}>
@@ -68,7 +46,6 @@ function ScoreCircle({ score }) {
     </div>
   );
 }
-
 // ============================================================
 // TOMORROW PLAN COMPONENT
 // ============================================================
@@ -504,7 +481,10 @@ Return ONLY a raw JSON object. No markdown. No backticks. Just JSON.
       {/* Score card */}
       <div className="mx-4 mt-4 bg-white rounded-3xl p-5 card-shadow">
         <div className="flex items-center gap-4">
-          <ScoreCircle score={nutritionData.score} />
+          <ScoreCircle
+  coveredCount={nutritionData.coveredCount}
+  totalNutrients={nutritionData.totalNutrients}
+/>
           <div className="flex-1">
             <p className="text-xs text-gray-400 mb-1 uppercase
                            tracking-widest font-semibold">

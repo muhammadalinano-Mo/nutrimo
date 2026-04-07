@@ -10,15 +10,10 @@ import TodayResults from './screens/TodayResults';
 import Onboarding from './screens/Onboarding';
 import BottomNav from './components/BottomNav';
 
-function RequireOnboarding({ children }) {
-  const hasOnboarded = localStorage.getItem('nutrimo_onboarded') === 'true';
-  if (!hasOnboarded) {
-    return <Navigate to="/welcome" replace />;
-  }
-  return children;
-}
-
 function App() {
+  const hasOnboarded =
+    localStorage.getItem('nutrimo_onboarded') === 'true';
+
   return (
     <BrowserRouter>
       <div style={{
@@ -30,10 +25,11 @@ function App() {
         boxShadow: '0 0 40px rgba(0,0,0,0.1)',
       }}>
         <Routes>
+          <Route
+            path="/"
+            element={hasOnboarded ? <Home /> : <Navigate to="/welcome" replace />}
+          />
           <Route path="/welcome" element={<Onboarding />} />
-          <Route path="/" element={
-            <RequireOnboarding><Home /></RequireOnboarding>
-          } />
           <Route path="/scan" element={<Scan />} />
           <Route path="/results" element={<Results />} />
           <Route path="/fix" element={<Fix />} />
