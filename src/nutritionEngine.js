@@ -607,11 +607,7 @@ export function calculateNutritionScore(ingredients) {
     return 0;
   });
 
-  // Step 7 — Score message based on food groups and score
-  const foodGroupsPresent = [
-    hasVegetables, hasFruits, hasProtein,
-    hasDairy, hasHealthyFats, hasWholegrains, hasFermented,
-  ].filter(Boolean).length;
+  
 
   const scoreMessage =
     score >= 85
