@@ -491,43 +491,54 @@ export function calculateNutritionScore(ingredients) {
   // protein(8) + fibre(7) + zinc(5) + magnesium(5) +
   // folate(6) + vitaminA(5) = 54 points out of 100
   // That gives a raw base of 54 — which is honest
-  let score = Math.round((earnedWeight / totalWeight) * 100);
+ let score = Math.round((earnedWeight / totalWeight) * 100);
 
   // Step 3 — Food group detection
-  const hasVegetables = ingredients.some(
-    i => FOOD_GROUPS.vegetables.includes(i)
-  );
-  const hasFruits = ingredients.some(
-    i => FOOD_GROUPS.fruits.includes(i)
-  );
-  const hasProtein = ingredients.some(
-    i => FOOD_GROUPS.protein.includes(i)
-  );
-  const hasDairy = ingredients.some(
-    i => FOOD_GROUPS.dairy.includes(i)
-  );
-  const hasHealthyFats = ingredients.some(
-    i => FOOD_GROUPS.healthyFats.includes(i)
-  );
-  const hasWholegrains = ingredients.some(
-    i => FOOD_GROUPS.wholegrains.includes(i)
-  );
-  const hasFermented = ingredients.some(
-    i => FOOD_GROUPS.fermented.includes(i)
-  );
+  const hasVegetables = ingredients.some(i => FOOD_GROUPS.vegetables.includes(i));
+  const hasFruits = ingredients.some(i => FOOD_GROUPS.fruits.includes(i));
+  const hasProtein = ingredients.some(i => FOOD_GROUPS.protein.includes(i));
+  const hasDairy = ingredients.some(i => FOOD_GROUPS.dairy.includes(i));
+  const hasHealthyFats = ingredients.some(i => FOOD_GROUPS.healthyFats.includes(i));
+  const hasWholegrains = ingredients.some(i => FOOD_GROUPS.wholegrains.includes(i));
+  const hasFermented = ingredients.some(i => FOOD_GROUPS.fermented.includes(i));
 
-  // Step 4 — Gentle food group penalties
-  // Only penalise missing CRITICAL food groups
-  // The penalty is proportional — not catastrophic
+  const foodGroupsPresent = [
+    hasVegetables, hasFruits, hasProtein,
+    hasDairy, hasHealthyFats, hasWholegrains, hasFermented,
+  ].filter(Boolean).length;
+
+  // Step 4 — Hard cap by food group diversity
+  const foodGroupCap =
+    foodGroupsPresent >= 7 ? 98 :
+    foodGroupsPresent >= 6 ? 88 :
+    foodGroupsPresent >= 5 ? 78 :
+    foodGroupsPresent >= 4 ? 68 :
+    foodGroupsPresent >= 3 ? 55 :
+    foodGroupsPresent >= 2 ? 42 : 30;
+
+  // Step 5 — Hard cap by ingredient count
+  const ingredientCap =
+    ingredients.length >= 15 ? 98 :
+    ingredients.length >= 12 ? 92 :
+    ingredients.length >= 9  ? 84 :
+    ingredients.length >= 7  ? 76 :
+    ingredients.length >= 5  ? 66 :
+    ingredients.length >= 4  ? 54 :
+    ingredients.length >= 3  ? 42 : 25;
+
+  // Apply both caps
+  score = Math.min(score, foodGroupCap, ingredientCap);
+
+  // Step 6 — Food group penalties
   const missingGroupPenalty =
-    (!hasVegetables ? 8 : 0) +   // Vegetables are essential
-    (!hasFruits ? 4 : 0) +       // Fruit matters but less critical
-    (!hasProtein ? 8 : 0) +      // Protein is essential
-    (!hasHealthyFats ? 4 : 0);   // Healthy fats matter
+    (!hasVegetables ? 8 : 0) +
+    (!hasFruits ? 4 : 0) +
+    (!hasProtein ? 8 : 0) +
+    (!hasHealthyFats ? 4 : 0);
 
   score = score - missingGroupPenalty;
 
-  // Step 5 — Bonuses for going above and beyond
+  // Step 7 — Bonuses
   const antiInflammatorySpices = [
     'Haldi turmeric', 'Turmeric haldi', 'Ginger', 'Garlic',
     'Kalonji black seed', 'Black seed kalonji', 'Cinnamon',
