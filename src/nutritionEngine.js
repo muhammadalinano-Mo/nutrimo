@@ -458,40 +458,31 @@ export function calculateNutritionScore(ingredients) {
   });
 
   // Step 2 — Weighted nutrient score
-  // Each nutrient has a weight based on importance
-  // This is the foundation of the score
   const weights = {
-    vitaminD:    10,  // Sweden critical
-    iron:         9,  // Most common deficiency
-    omega3:       9,  // Brain and heart
-    vitaminB12:   8,  // Energy and nerves
-    protein:      8,  // Muscle and repair
-    calcium:      7,  // Bones
-    vitaminC:     7,  // Immunity
-    fibre:        7,  // Gut health
-    folate:       6,  // Cell repair
-    probiotics:   6,  // Microbiome
-    zinc:         5,  // Immunity
-    magnesium:    5,  // Sleep and stress
-    vitaminA:     5,  // Vision
-    potassium:    4,  // Heart
-    antioxidants: 4,  // Inflammation
+    vitaminD:    10,
+    iron:         9,
+    omega3:       9,
+    vitaminB12:   8,
+    protein:      8,
+    calcium:      7,
+    vitaminC:     7,
+    fibre:        7,
+    folate:       6,
+    probiotics:   6,
+    zinc:         5,
+    magnesium:    5,
+    vitaminA:     5,
+    potassium:    4,
+    antioxidants: 4,
   };
 
   const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
-  // totalWeight = 100 — convenient
-
   let earnedWeight = 0;
   covered.forEach(nutrient => {
     earnedWeight += weights[nutrient] || 0;
   });
 
-  // Base score = percentage of weighted nutrients covered
-  // Eggs + Butter + Rye covers vitaminD(10) + vitaminB12(8) +
-  // protein(8) + fibre(7) + zinc(5) + magnesium(5) +
-  // folate(6) + vitaminA(5) = 54 points out of 100
-  // That gives a raw base of 54 — which is honest
- let score = Math.round((earnedWeight / totalWeight) * 100);
+  let score = Math.round((earnedWeight / totalWeight) * 100);
 
   // Step 3 — Food group detection
   const hasVegetables = ingredients.some(i => FOOD_GROUPS.vegetables.includes(i));
@@ -576,7 +567,7 @@ export function calculateNutritionScore(ingredients) {
   // Floor at 10, ceiling at 98
   score = Math.max(10, Math.min(98, score));
 
-  // Step 6 — Build nutrient breakdown
+  // Step 8 — Build nutrient breakdown
   const breakdown = nutrientKeys.map(key => {
     const nutrient = NUTRIENTS[key];
     const isCovered = covered.has(key);
@@ -596,7 +587,6 @@ export function calculateNutritionScore(ingredients) {
     };
   });
 
-  // Sort: critical missing first, then high, then covered
   breakdown.sort((a, b) => {
     if (!a.covered && !b.covered) {
       const importanceOrder = { critical: 0, high: 1, medium: 2 };
@@ -607,20 +597,18 @@ export function calculateNutritionScore(ingredients) {
     return 0;
   });
 
-  
-
   const scoreMessage =
     score >= 85
-      ? 'Excellent. Your fridge covers almost all nutritional bases. Fine-tune with the gaps below.'
+      ? 'Excellent. Your kitchen covers almost all nutritional bases.'
     : score >= 70
-      ? 'Good foundations. A few targeted additions this week would make this excellent.'
+      ? 'Good foundations. A few targeted additions would make this excellent.'
     : score >= 55
-      ? 'Decent base but missing some key food groups. Your body is likely noticing the gaps.'
+      ? 'Decent base but missing some key food groups.'
     : score >= 40
-      ? `Only ${foodGroupsPresent} of 7 food groups present. Focus on the critical missing nutrients below.`
+      ? `Only ${foodGroupsPresent} of 7 food groups present. Focus on the critical gaps below.`
     : score >= 25
-      ? 'Very limited nutritional variety. Add one item from each missing food group this week.'
-      : 'Your fridge needs urgent attention. Start with protein, vegetables and a source of Vitamin D.';
+      ? 'Very limited nutritional variety. Add one item from each missing food group.'
+      : 'Your kitchen needs urgent attention. Start with protein, vegetables and Vitamin D.';
 
   return {
     score,
