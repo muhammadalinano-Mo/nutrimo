@@ -114,11 +114,10 @@ function Scan() {
       alert('Please select at least 3 ingredients');
       return;
     }
-    localStorage.setItem(
-      'NutriMo_ingredients',
-      JSON.stringify(selected)
-    );
-    navigate('/results');
+localStorage.setItem(
+  'nutrimo_ingredients',
+  JSON.stringify(selected)
+);
   };
 
   // Convert file to base64
