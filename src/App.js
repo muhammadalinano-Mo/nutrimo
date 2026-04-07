@@ -7,6 +7,7 @@ import Fix from './screens/Fix';
 import History from './screens/History';
 import TodayLog from './screens/TodayLog';
 import TodayResults from './screens/TodayResults';
+import BottomNav from './components/BottomNav';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/today-results" element={<TodayResults />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
+        <BottomNav />
       </div>
     </BrowserRouter>
   );

@@ -108,3 +108,7 @@ h1, h2, h3 {
     transparent 50%
   );
 }
+/* Bottom nav padding */
+.bottom-nav-padding {
+  padding-bottom: 80px;
+}
