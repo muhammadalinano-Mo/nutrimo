@@ -7,7 +7,11 @@ import Fix from './screens/Fix';
 import History from './screens/History';
 import TodayLog from './screens/TodayLog';
 import TodayResults from './screens/TodayResults';
+import Onboarding from './screens/Onboarding';
 import BottomNav from './components/BottomNav';
+
+// Check if user has been onboarded
+const hasOnboarded = localStorage.getItem('nutrimo_onboarded') === 'true';
 
 function App() {
   return (
@@ -21,7 +25,12 @@ function App() {
         boxShadow: '0 0 40px rgba(0,0,0,0.1)',
       }}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={hasOnboarded ? <Home /> : <Navigate to="/welcome" />}
+          />
+          <Route path="/welcome" element={<Onboarding />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/scan" element={<Scan />} />
           <Route path="/results" element={<Results />} />
           <Route path="/fix" element={<Fix />} />
